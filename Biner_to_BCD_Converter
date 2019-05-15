@@ -1,0 +1,67 @@
+----------------------------------------------------------------------------------
+-- Company: 
+-- Engineer: 
+-- 
+-- Create Date:    22:10:42 05/15/2019 
+-- Design Name: 
+-- Module Name:    Biner_to_BCD_Converter - Behavioral 
+-- Project Name: 
+-- Target Devices: 
+-- Tool versions: 
+-- Description: 
+--
+-- Dependencies: 
+--
+-- Revision: 
+-- Revision 0.01 - File Created
+-- Additional Comments: 
+--
+----------------------------------------------------------------------------------
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_Logic_unsigned.all;
+-- Uncomment the following library declaration if using
+-- arithmetic functions with Signed or Unsigned values
+--use IEEE.NUMERIC_STD.ALL;
+
+-- Uncomment the following library declaration if instantiating
+-- any Xilinx primitives in this code.
+--library UNISIM;
+--use UNISIM.VComponents.all;
+
+entity Biner_to_BCD_Converter is
+port ( 
+		biner : in std_logic_vector (13 downto 0);
+		bcd: out std_logic_vector (16 downto 0)
+		);
+end Biner_to_BCD_Converter;
+
+architecture Behavioral of Biner_to_BCD_Converter is
+
+begin
+	process(biner)
+		variable geser : std_logic_vector(32 downto 0);
+			begin
+				for i in 0 to 32 loop
+					geser(i):='0';
+				end loop;
+				geser(16 downto 3) := biner;
+				for i in 0 to 10 loop
+					if geser(17 downto 14) >4 then
+						geser(17 downto 14) := geser(17 downto 14) +3;
+					end if;
+					if geser(21 downto 18) > 4 then
+						geser(21 downto 18) :=geser(21 downto 18) +3;
+					end if;
+					if geser(25 downto 22) > 4 then
+						geser(25 downto 22) :=geser(25 downto 22) +3;
+					end if;
+					if geser(29 downto 26) > 4 then
+						geser(29 downto 26) :=geser(29 downto 26) +3;
+					end if;
+					geser(32 downto 1):=geser(31 downto 0);
+				end loop;
+				bcd<=geser(30 downto 14);
+			end process;
+end Behavioral;
+
